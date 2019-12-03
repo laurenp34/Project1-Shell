@@ -39,3 +39,9 @@ void printArray(char **) {
   }
   printf("]\n");
 }
+
+int main() {
+  char * args[50] = getInput();
+  printArray(args);
+  return 0;
+}
