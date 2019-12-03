@@ -8,3 +8,17 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <dirent.h>
+int main(){
+  printf("$");
+  int status;
+  char **args =getInput();
+  fork();
+  if (f){
+    wait(status);
+  }
+  else{
+    if (strcmp(r,"exit")==0) exit();
+    execvp(args);
+  }
+  return 0;
+}
