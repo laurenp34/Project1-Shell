@@ -1,14 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <dirent.h>
 int main(){
   printf("$");
-  char r [100];
   int status;
-  fgets(r,100,stdin);
+  char **args =getInput();
   fork();
   if (f){
     wait(status);
   }
   else{
-    runfunc(r);
+    if (strcmp(r,"exit")==0) exit();
+    execvp(args);
   }
   return 0;
 }
