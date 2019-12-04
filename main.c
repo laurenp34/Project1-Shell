@@ -8,6 +8,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <sys/wait.h>
 #include "shell.c"
 int main(){
   printf("$");
