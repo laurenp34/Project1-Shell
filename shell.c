@@ -29,17 +29,20 @@ void getInput(char * args[50]) {
 
 }
 
-void printArray(char **) {
+void printArray(char ** array) {
   printf("[");
   int c = 0;
-  for (c=0;c<i;c++) {
-    printf("'%s', ", args[c]);
+
+  while (array[c] != NULL) {
+    printf("'%s', ", array[c]);
+    c ++;
   }
   printf("]\n");
 }
 
-int main() {
-  char * args[50] = getInput();
-  printArray(args);
-  return 0;
-}
+// int main() {
+//   char * args[50];
+//   getInput(args);
+//   printArray(args);
+//   return 0;
+// }
