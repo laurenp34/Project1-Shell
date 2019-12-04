@@ -9,11 +9,10 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-char ** getInput() {
+void getInput(char * args[50]) {
   char s[100];
   fgets(s, 100, stdin);
 
-  char * args[50]; //array to store tokens
   char * token; //will store start of token
   char * line = s; //the complete line stored as a pointer
   int i=0;//index of args we are up to
@@ -28,7 +27,6 @@ char ** getInput() {
   args[i-1] = strsep(&(args[i-1]), "\n");
   args[i] = NULL;
 
-  return args;
 }
 
 void printArray(char **) {
