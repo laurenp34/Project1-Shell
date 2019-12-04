@@ -40,6 +40,27 @@ void printArray(char ** array) {
   printf("]\n");
 }
 
+void runCommands(char ** args) {
+  char ** temp;
+  int i=0; //index of args
+  int t=0; //index of temp
+  while (args[i] != NULL) {
+    temp[t] = args[i];
+    t++;
+    //if current index has a semicolon:
+    if (strstr(args[i], ";") != NULL) {
+      printArray(temp);
+      execvp(temp[0],temp);
+      temp = NULL; ///reset temp
+      t=0;
+    }
+    i++;
+  }
+  print("hi\n");
+  printArray(temp);
+  execvp(temp[0],temp);
+}
+
 // int main() {
 //   char * args[50];
 //   getInput(args);

@@ -11,3 +11,4 @@
 
 char ** getInput();
 void printArray(char **);
+void runCommands(char ** args);
