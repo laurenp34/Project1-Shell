@@ -8,11 +8,14 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <dirent.h>
+
+#include "shell.h"
+
 int main(){
   printf("$");
   int status;
   char **args =getInput();
-  fork();
+  f = fork();
   if (f){
     wait(status);
   }
