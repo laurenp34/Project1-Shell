@@ -10,7 +10,7 @@
 #include <sys/wait.h>
 #include <dirent.h>
 #include <sys/wait.h>
-#include "shell.c"
+#include "shell.h"
 int main(){
   int status,f;
   char **args;
@@ -25,8 +25,8 @@ while (strcmp(args[0],"exit")!=0){
   }
   else{
   //  if (strcmp(r,"exit")==0) exit();
-    printArray(args);
-    execvp(args[0],args);
+    //runCommands(args);
+    execvp(args[0], args);
   }
 }
   return 0;
