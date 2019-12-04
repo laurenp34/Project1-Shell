@@ -11,17 +11,21 @@
 #include <sys/wait.h>
 #include "shell.c"
 int main(){
-  printf("$");
   int status,f;
   char **args;
+        printf("$");
   getInput(args);
-  fork();
+while (strcmp(args[0],"exit")!=0){
+  f = fork();
   if (f){
-    wait(status);
+    wait(&status);
+      printf("$");
+        getInput(args);
   }
   else{
   //  if (strcmp(r,"exit")==0) exit();
     execvp(args[0],args);
   }
+}
   return 0;
 }

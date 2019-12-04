@@ -9,11 +9,10 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-void getInput(char * args[]) {
+void getInput(char * args[50]) {
   char s[100];
   fgets(s, 100, stdin);
 
-  //char * args[50]; //array to store tokens
   char * token; //will store start of token
   char * line = s; //the complete line stored as a pointer
   int i=0;//index of args we are up to
@@ -27,19 +26,23 @@ void getInput(char * args[]) {
   //remove escape key from last index
   args[i-1] = strsep(&(args[i-1]), "\n");
   args[i] = NULL;
+
 }
 
-void printArray(char ** args) {
+void printArray(char ** array) {
   printf("[");
   int c = 0;
-  for (c=0;c<i;c++) {
-    printf("'%s', ", args[c]);
+
+  while (array[c] != NULL) {
+    printf("'%s', ", array[c]);
+    c ++;
   }
   printf("]\n");
 }
 
-int main() {
-  //char * args[50] = getInput();
-  //printArray(args);
-  return 0;
-}
+// int main() {
+//   char * args[50];
+//   getInput(args);
+//   printArray(args);
+//   return 0;
+// }
