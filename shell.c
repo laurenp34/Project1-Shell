@@ -9,22 +9,39 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+<<<<<<< HEAD
 void getInput(char * args[50][50]) {
   char s[100];
   fgets(s, 100, stdin);
 
   int status;
 
+=======
+void getInput(char * args[20]) {
+  char s[100];
+  int i;
+for (i=0;i<20;i++){
+  args[i]=NULL;
+}
+fgets(s,100,stdin);
+>>>>>>> 56fdd1898cd59b385aae1a053d4323161fd69af5
   char * token; //will store start of token
   char * line = s; //the complete line stored as a pointer
-  int i=0;//index of args we are up to
+   i=0;//index of args we are up to
 
+<<<<<<< HEAD
   char * temp[50]; //stores different commands
 
   //separate the diff commands by semicolon:
   while (line != NULL) {
     token = strsep(&line, ";");
     temp[i] = token;
+=======
+  while (line) {
+    token = strsep(&line, " ");
+    args[i] = token;
+  //  printf("%d: [%s]\n",i,token);
+>>>>>>> 56fdd1898cd59b385aae1a053d4323161fd69af5
     i++;
   }
   temp[i] = NULL;
@@ -53,8 +70,8 @@ void printArray(char ** array) {
   printf("[");
   int c = 0;
 
-  while (array[c] != NULL) {
-    printf("'%s', ", array[c]);
+  while (c<6) {
+    printf("'%s',", array[c]);
     c ++;
   }
   printf("]\n");
@@ -75,8 +92,12 @@ void runCommands(char ** args) {
   char ** temp;
   int i=0; //index of args
   int t=0; //index of temp
+<<<<<<< HEAD
   int f, status;
   while (args[i] != NULL) {
+=======
+  while (args[i]) {
+>>>>>>> 56fdd1898cd59b385aae1a053d4323161fd69af5
     temp[t] = args[i];
     printf("%s.\n", temp[t]);
     t++;
