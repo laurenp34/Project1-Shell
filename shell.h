@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+
 char ** getInput();
-void printArray(char **);
+void printArray(char *** args);
 void runCommands(char ** args);
