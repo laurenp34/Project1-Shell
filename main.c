@@ -13,10 +13,11 @@
 #include "shell.h"
 #include "shell.c"
 int main(){
-  int status,f;
-  char **args;
-        printf("$");
+  int status,f,errors;
+  char *args[20];
+  printf("$");
   getInput(args);
+  //    printArray(args);
 while (strcmp(args[0],"exit")!=0){
   f = fork();
   if (f){
@@ -25,6 +26,7 @@ while (strcmp(args[0],"exit")!=0){
     if (status==512){
         chdir(args[1]);
       }
+      printArray(args);
       printf("$");
       getInput(args);
   }
@@ -32,8 +34,9 @@ while (strcmp(args[0],"exit")!=0){
     if (strcmp(args[0],"cd")==0){
       return 2;
     }
-    execvp(args[0], args);
+    errors=execvp(args[0], args);
   }
 }
+printf("errors are: %d",errors);
   return 0;
 }
