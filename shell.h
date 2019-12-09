@@ -10,6 +10,7 @@
 #include <dirent.h>
 
 
-char ** getInput();
-void printArray(char *** args);
+void getInput(char * args[20][50]);
+void printArray(char ** args);
+void printArray2(char *** array );
 void runCommands(char ** args);

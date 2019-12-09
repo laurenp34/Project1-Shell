@@ -9,60 +9,59 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-<<<<<<< HEAD
-void getInput(char * args[50][50]) {
+int getInput(char * args1[20], char* args2[20][50]) {
   char s[100];
-  fgets(s, 100, stdin);
+  int i, i2;
 
   int status;
 
-=======
-void getInput(char * args[20]) {
-  char s[100];
-  int i;
-for (i=0;i<20;i++){
-  args[i]=NULL;
-}
-fgets(s,100,stdin);
->>>>>>> 56fdd1898cd59b385aae1a053d4323161fd69af5
   char * token; //will store start of token
   char * line = s; //the complete line stored as a pointer
    i=0;//index of args we are up to
 
-<<<<<<< HEAD
   char * temp[50]; //stores different commands
 
-  //separate the diff commands by semicolon:
-  while (line != NULL) {
-    token = strsep(&line, ";");
-    temp[i] = token;
-=======
-  while (line) {
-    token = strsep(&line, " ");
-    args[i] = token;
-  //  printf("%d: [%s]\n",i,token);
->>>>>>> 56fdd1898cd59b385aae1a053d4323161fd69af5
-    i++;
-  }
-  temp[i] = NULL;
-
-  //loop through commands in temp and separate by space in each
-  int i2=0;
-  while (temp[i2] != NULL) {
-    line = temp[i2];
-    i=0;
+  fgets(s, 100, stdin);
+;
+  if (strchr(s, ";") > 0) {
+    //separate the diff commands by semicolon:
     while (line != NULL) {
-      token = strsep(&line, " ");
-      args[i2][i] = token;
-      //printf("%d: [%s]\n",i,token);
+      token = strsep(&line, ";");
+      temp[i] = token;
       i++;
     }
-    //remove escape key from last index
-    args[i2][i-1] = strsep(&(args[i-1]), "\n");
-    args[i2][i] = NULL;
-    i2++;
+    temp[i] = NULL;
+    //loop through commands in temp and separate by space in each
+    i2=0;
+    while (temp[i2] != NULL) {
+      line = temp[i2];
+      i=0;
+      while (line != NULL) {
+        token = strsep(&line, " ");
+        args2[i2][i] = token;
+        //printf("%d: [%s]\n",i,token);
+        i++;
+      };
+      //remove escape key from last index
+      args2[i2][i-1] = strsep(&(args2[i-1]), "\n");
+      args2[i2][i] = NULL;
+      i2++;
+    }
+    args2[i2][0] = NULL;
+    return 2;
+
+  } else {
+    i = 0;
+    while (line){
+      token = strsep(&line, " ");
+      args1[i] = token;
+      i++;
+    }
+    args1[i-1] = strsep(&(args1[i-1]), "\n");
+    args1[i] = NULL;
+    return 1;
   }
-  args[i2][0] = NULL;
+
 
 }
 
@@ -92,12 +91,8 @@ void runCommands(char ** args) {
   char ** temp;
   int i=0; //index of args
   int t=0; //index of temp
-<<<<<<< HEAD
   int f, status;
-  while (args[i] != NULL) {
-=======
   while (args[i]) {
->>>>>>> 56fdd1898cd59b385aae1a053d4323161fd69af5
     temp[t] = args[i];
     printf("%s.\n", temp[t]);
     t++;
@@ -121,9 +116,12 @@ void runCommands(char ** args) {
   execvp(temp[0],temp);
 }
 
-// int main() {
-//   char * args[50];
-//   getInput(args);
-//   printArray(args);
-//   return 0;
-// }
+int main() {
+  char * a1[50];
+  char * a2[20][50];
+
+  getInput(a1, a2);
+  printArray(a1);
+  printArray2(a2);
+  return 0;
+}
