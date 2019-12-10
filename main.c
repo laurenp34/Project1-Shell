@@ -10,53 +10,18 @@
 #include <sys/wait.h>
 #include <dirent.h>
 #include <sys/wait.h>
-<<<<<<< HEAD
-=======
-
-
-// #include "shell.c"
-// int main(){
-//   int status;
-//   int f;
-//   int f2;
-//   int i;
-//   char * args[50][50];
-//   printf("$");
-//   getInput(args);
-//   while (strcmp(args[0][0],"exit")!=0){
-//     f = fork();
-//     if (f){
-//       wait(&status);
-//         printf("$");
-//           getInput(args);
-//     }
-//     else{
-//     //  if (strcmp(r,"exit")==0) exit();
-//       //runCommands(args);
-//       i=0;
-//       while(args[i][0] != NULL) {
-//         f2 = fork();
-//         if (f2) {
-//           wait(&status);
-//         }
-//         else {
-//           execvp(args[i][0], args[i]);
-//         }
-//       }
-//     }
-//   }
-// =======
->>>>>>> 58074b861674b378e9778bedb077c2c137af1c19
 #include "shell.h"
 #include "shell.c"
 int main(){
   int status,f,errors;
   char *args[20];
-  int i;
+  char * args2[20][50];
+  int i,semi;
+  i=0;
   printf("$");
-  getInput(args);
-  //    printArray(args);
-while (strcmp(args[0],"exit")!=0){
+  semi=getInput(args);
+//if there is only one command to be interpreted:
+while (strcmp(args[0],"exit")!=0 && semi==1){
   f = fork();
   if (f){
     wait(&status);
@@ -66,31 +31,50 @@ while (strcmp(args[0],"exit")!=0){
       }
       printArray(args);
       printf("$");
-      getInput(args);
+      semi=getInput(args);
   }
   else{
-
-    i=0;
-    while(args[i][0] != NULL) {
-      if (strcmp(args[i][0],"cd")==0){
+      if (strcmp(args[0],"cd")==0){
         return 2;
       }
-      f = fork();
-      if (f) {
-        wait(&status);
-      }
-      errors = execvp(args[i][0], args[i]);
-    }
-<<<<<<< HEAD
     execvp(args[0], args);
   }
 }
-
-  return 0;
-=======
-    printf("errors are: %d",errors);
-      return 0;
+while (strcmp(args[i][0],"exit")!=0 && semi==2){
+  f = fork();
+//Parent runs after ALL children are done
+  if (f){
+    wait(&status);
+  //  printf("%d",status);
+    if (status==512){//handles a cd internally
+        chdir(args[i][1]);//executes the cd
+          while(args[i][0]){//while there are commands to look at
+            f=fork();
+            i++;
+            if (f) {
+              wait(&status);//child process waits
+            }
+            else execvp(args[i-1][0], args[i]);//each command is executed
+          }
+        }
+      printArray(args);//once children have run
+      printf("$");
+      semi=getInput(args); //takes in new input
   }
+  //Children run repeatedly
+  else{
+    while(args[i][0]){
+      i++;
+      if (strcmp(args[i-1][0],"cd")==0){
+        return 2;//delegates back to parent class
+      }
+      f = fork();
+      if (f) {
+        wait(&status);//executes children one by one
+      }
+      else execvp(args[i-1][0], args[i]);
 }
->>>>>>> 58074b861674b378e9778bedb077c2c137af1c19
+}
+}
+  return 0;
 }
