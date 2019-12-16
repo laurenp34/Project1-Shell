@@ -9,7 +9,6 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include "shell.c"
 char * getInput(char s[100]);
 void printArray(char ** array);
 void printArray2(char *** array );

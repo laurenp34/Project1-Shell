@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/wait.h>
-
+#include "shell.h"
 
 void printArray(char ** array) {
   printf("[");
