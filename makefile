@@ -1,11 +1,11 @@
-all: main.o shell.o
-	gcc -o runshell main.o
-
-main.o: main.c
-	gcc -c main.c
+all: shell.o main.o
+	gcc -o runshell shell.o main.o
 
 shell.o: shell.c shell.h
-	gcc -c shell.c
+		gcc -c shell.c
+
+main.o: main.c shell.h
+	gcc -c main.c
 
 run:
 	./runshell
