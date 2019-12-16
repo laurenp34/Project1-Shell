@@ -9,8 +9,11 @@
 #include <sys/types.h>
 #include <dirent.h>
 
+#include "shell.c"
 
-void getInput(char * args[20][50]);
-void printArray(char ** args);
+
+char * getInput(char s[100]);
+void printArray(char ** array);
 void printArray2(char *** array );
-void runCommands(char ** args);
+char ** parseBySpace(char input[100]);
+char *** getArgsSemicolon(char * line);
