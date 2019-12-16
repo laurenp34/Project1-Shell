@@ -47,6 +47,8 @@ int main(){
       wait(&status);
       if (status==512){
         if (chdir(args[i][1]) == -1) printf("Errno %d: %s\n", errno, strerror(errno));
+      } else if (status != 0) {
+        printf("Errno %d: %s\n", errno, strerror(errno));
       }
       //  printf("status: %d\n",status);
       //printArray(args[i]);
@@ -72,13 +74,15 @@ int main(){
       //   dup2(fd, 1);
       //   return 3;
       // }
-        if (execvp(args[i][0], args[i]) == -1) printf("Errno %d: %s\n", errno, strerror(errno));
+        if (execvp(args[i][0], args[i]) == -1) {
+          // printf("Errno %d: %s\n", errno, strerror(errno));
+          exit(errno);
+        }
 
     }
     i++;
   }
-  if (status==0) return 0;
-  else return 2;
+return WEXITSTATUS(status);
 }
 getInput(input);
 //free(args);
