@@ -63,11 +63,14 @@ int main(){
         return 2;
       }
       else  execvp(args[i][0], args[i]);
+      printf("Command not found.\n");
+      return 4;
     }
     i++;
   }
   if (status==0) return 0;
-  else return 2;
+  if (status==512) return 2;
+  return 4;
 }
 getInput(input);
 //free(args);
