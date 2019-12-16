@@ -5,7 +5,7 @@ It
 a) implements execvp to parse and run typical command line arguments (cd and exit included)
 b) allows the user to sequentially execute multiple commands separated by a semicolon.
 
-We had a lot of trouble with these two implementations and therefore were not able to reach the rest of our goals. We were able to quickly get a simple shell working with exit and cd, but once we added semicolons and started to work with multiple commands we struggled. We did not attempt the other implementations.
+We had a lot of trouble with these two implementations and therefore were not able to reach the rest of our goals. We were able to quickly get a simple shell working with exit and cd, but once we added semicolons and started to work with multiple commands we struggled. We attempted redirection but were unsuccessful.
 
 The bugs we have found in our program include:
 a)cd only works in isolation. When coupled with other functions through semicolon, it stops working
