@@ -53,10 +53,11 @@ char ** parseBySpace(char input[100]) {
     token = strsep(&line, " ");
     //printf("token: %s\n", token);
     // printf("out[i]:%s\n", out[i]);
+    if (strlen(token)>0){
     out[i] = token;
     //printf("out[i]:%s\n", out[i]);
     //printf("what\n");
-    i++;
+    i++;}
   }
   //printf("done\n");
   //char * last = out[i-1];
@@ -66,9 +67,7 @@ char ** parseBySpace(char input[100]) {
   //printf("finished parsing line. \n");
   //printArray(out);
   //printf("\n");
-  char ** togo= out;
-  free(out);
-  return togo;
+return out;
 
   // // char *s1 = line;
   // char * out[100];
@@ -101,9 +100,7 @@ char *** getArgsSemicolon(char * line) {
   args2[i2] = NULL;
   //printArray(args2[0]);
   //printArray(args2[1]);
-  char *** toreturn=args2;
-  free(args2);
-  return toreturn;
+  return args2;
 }
 
 

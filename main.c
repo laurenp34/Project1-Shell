@@ -22,7 +22,7 @@ int main(){
   i=0;
   //if there is only one command to be interpreted:
   while ((strcmp(args[i][0],"exit")!=0)){
-    printArray2(args);
+  //  printArray2(args);
     i=0;
       f=fork();
     if (f){
@@ -37,7 +37,7 @@ int main(){
           if (f) {
             wait(&status);//child process waits
           }
-          else execvp(args[i-1][0], args[i]);//each command is executed
+          else execvp(args[i-1][0], args[i-1]);//each command is executed
         }
       }
       //printArray(args[i]);
@@ -47,26 +47,19 @@ int main(){
     else{
     while (args[i]){
     g=fork();
-    i++;
     if (g){
-      printf("In first g\n");
-      printArray(args[i-1]);
-    if (strcmp(args[i-1][0],"cd")==0){
-      return 2;
+      wait(&status);
     }
-      errors=execvp(args[i-1][0], args[i-1]);
-      printf("There was an error!");
-    }
-    else if (args[i]){
-      printf("In second g\n");
+    else{
+    //  printf("In second g\n");
       if (strcmp(args[i][0],"cd")==0){
         return 2;
       }
         execvp(args[i][0], args[i]);
     }
     i++;
-    printf("I did the whole loop!");
   }
+  return 0;
 }
 getInput(input);
 //free(args);
