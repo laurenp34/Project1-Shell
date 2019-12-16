@@ -30,9 +30,11 @@ void cdfunc(int i, char *** args){
 int main(){
   int status,f,errors,g,h;
   char *** args;
-  char input[100];
-  int i,semi;
-  printf("$");
+  char input[100], cwd[500];
+  char * filename;
+  getcwd(cwd, sizeof(cwd));
+  int i,semi, fd, backup;
+  printf("%s$", cwd);
   getInput(input);
   args = getArgsSemicolon(input);
   i=0;
@@ -44,11 +46,14 @@ int main(){
     if (f){
       wait(&status);
       if (status==512){
-        chdir(args[i][1]);
+        if (chdir(args[i][1]) == -1) printf("Errno %d: %s\n", errno, strerror(errno));
+      } else if (status != 0) {
+        printf("Errno %d: %s\n", errno, strerror(errno));
       }
       //  printf("status: %d\n",status);
       //printArray(args[i]);
-      printf("$");
+      getcwd(cwd, sizeof(cwd));
+      printf("%s$", cwd);
       //getInput(input);
     }
     else{
@@ -62,15 +67,22 @@ int main(){
       if (strcmp(args[i][0],"cd")==0){
         return 2;
       }
-      else  execvp(args[i][0], args[i]);
-      printf("Command not found.\n");
-      return 4;
+      // if (strcmp(args[i][1], ">") == 0) {
+      //   backup = dup(1); //backup of stdout
+      //   filename = args[i][2];
+      //   fd = open(filename, 0644);
+      //   dup2(fd, 1);
+      //   return 3;
+      // }
+        if (execvp(args[i][0], args[i]) == -1) {
+          // printf("Errno %d: %s\n", errno, strerror(errno));
+          exit(errno);
+        }
+
     }
     i++;
   }
-  if (status==0) return 0;
-  if (status==512) return 2;
-  return 4;
+return WEXITSTATUS(status);
 }
 getInput(input);
 //free(args);

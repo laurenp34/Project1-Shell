@@ -9,6 +9,7 @@ We had a lot of trouble with these two implementations and therefore were not ab
 
 The bugs we have found in our program include:
 a)cd only works in isolation. When coupled with other functions through semicolon, it stops working
+b)Pressing enter without any command input returns a makefile error.
 
 Function headers:
 
