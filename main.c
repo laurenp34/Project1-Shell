@@ -11,8 +11,24 @@
 #include <dirent.h>
 #include <sys/wait.h>
 #include "shell.h"
+void cdfunc(int i, char *** args){
+  int h,status;
+  chdir(args[i][1]);
+      printf("made it here! %d",i);
+      i+=2;
+  while(args[i]) {
+    printf("made it in!");
+    h=fork();
+    i++;
+    if (h) {
+      wait(&status);//child process waits
+    }
+    else execvp(args[i-1][0], args[i-1]);//each command is executed
+  }
+}
+
 int main(){
-  int status,f,errors,g;
+  int status,f,errors,g,h;
   char *** args;
   char input[100];
   int i,semi;
@@ -27,19 +43,10 @@ int main(){
       f=fork();
     if (f){
       wait(&status);
-      //  printf("status: %d\n",status);
       if (status==512){
         chdir(args[i][1]);
-        i++;
-        while(args[i]) {
-          f=fork();
-          i++;
-          if (f) {
-            wait(&status);//child process waits
-          }
-          else execvp(args[i-1][0], args[i-1]);//each command is executed
-        }
       }
+      //  printf("status: %d\n",status);
       //printArray(args[i]);
       printf("$");
       //getInput(input);
@@ -55,11 +62,12 @@ int main(){
       if (strcmp(args[i][0],"cd")==0){
         return 2;
       }
-        execvp(args[i][0], args[i]);
+      else  execvp(args[i][0], args[i]);
     }
     i++;
   }
-  return 0;
+  if (status==0) return 0;
+  else return 2;
 }
 getInput(input);
 //free(args);
