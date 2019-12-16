@@ -11,7 +11,7 @@
 #include <dirent.h>
 #include <sys/wait.h>
 #include "shell.h"
-#include "shell.c"
+#include "shell2.c"
 int main(){
   int status,f,errors;
   char *args[20];
