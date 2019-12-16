@@ -24,13 +24,13 @@ void printArray(char ** array) {
 }
 
 void printArray2(char *** array ){
-  printf("[");
+  printf("{");
   int c = 0;
   while (array[c] != NULL) {
     printArray(array[c]);
     c++;
   }
-  printf("]\n");
+  printf("}\n");
 }
 
 

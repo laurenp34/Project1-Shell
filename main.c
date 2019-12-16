@@ -19,16 +19,18 @@ int main(){
   printf("$");
   getInput(input);
   args = getArgsSemicolon(input);
+  i=0;
   //if there is only one command to be interpreted:
   while ((strcmp(args[i][0],"exit")!=0)){
-    i=0;
     printArray2(args);
+    i=0;
     while (args[i]) {
+      printf("loop has begun\n");
     f = fork();
     if (f){
       wait(&status);
       i++;
-      //  printf("%d",status);
+        printf("status: %d\n",status);
       if (status==512){
         chdir(args[i][1]);
         i++;
