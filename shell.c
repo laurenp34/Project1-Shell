@@ -44,6 +44,7 @@ char * getInput(char s[100]) {
 
 char ** parseBySpace(char input[100]) {
   //printf("hi\n");
+
   char ** out = malloc(20 * sizeof (char*));
   int i = 0;
   char * line = input;
@@ -65,7 +66,9 @@ char ** parseBySpace(char input[100]) {
   //printf("finished parsing line. \n");
   //printArray(out);
   //printf("\n");
-  return out;
+  char ** togo= out;
+  free(out);
+  return togo;
 
   // // char *s1 = line;
   // char * out[100];
@@ -88,7 +91,7 @@ char *** getArgsSemicolon(char * line) {
     token = strsep(&line, ";");
     //printf("parsing: %s\n", token);
     args2[i2] = parseBySpace(token);
-    printArray(args2[i2]);
+  //  printArray(args2[i2]);
     //printf("hi again\n");
     //printf("line after parsing:%s\n", line);
     //printf("len of line:%d\n",strlen(line));
@@ -98,7 +101,9 @@ char *** getArgsSemicolon(char * line) {
   args2[i2] = NULL;
   //printArray(args2[0]);
   //printArray(args2[1]);
-  return args2;
+  char *** toreturn=args2;
+  free(args2);
+  return toreturn;
 }
 
 

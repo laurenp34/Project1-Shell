@@ -12,7 +12,7 @@
 #include <sys/wait.h>
 #include "shell.h"
 int main(){
-  int status,f,errors;
+  int status,f,errors,g;
   char *** args;
   char input[100];
   int i,semi;
@@ -24,13 +24,10 @@ int main(){
   while ((strcmp(args[i][0],"exit")!=0)){
     printArray2(args);
     i=0;
-    while (args[i]) {
-      printf("loop has begun\n");
-    f = fork();
+      f=fork();
     if (f){
       wait(&status);
-      i++;
-        printf("status: %d\n",status);
+      //  printf("status: %d\n",status);
       if (status==512){
         chdir(args[i][1]);
         i++;
@@ -47,14 +44,32 @@ int main(){
       printf("$");
       //getInput(input);
     }
-  else{
-    if (strcmp(args[i][0],"cd")==0){
+    else{
+    while (args[i]){
+    g=fork();
+    i++;
+    if (g){
+      printf("In first g\n");
+      printArray(args[i-1]);
+    if (strcmp(args[i-1][0],"cd")==0){
       return 2;
     }
-    execvp(args[i][0], args[i]);
+      errors=execvp(args[i-1][0], args[i-1]);
+      printf("There was an error!");
+    }
+    else if (args[i]){
+      printf("In second g\n");
+      if (strcmp(args[i][0],"cd")==0){
+        return 2;
+      }
+        execvp(args[i][0], args[i]);
+    }
+    i++;
+    printf("I did the whole loop!");
   }
 }
 getInput(input);
+//free(args);
 args = getArgsSemicolon(input);
 }
 // while (strcmp(args[i][0],"exit")!=0 && semi==2){
