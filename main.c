@@ -30,10 +30,12 @@ void cdfunc(int i, char *** args){
 int main(){
   int status,f,errors,g,h;
   char *** args;
+  char * in [10];
+  char * out[10];
   char input[100], cwd[500];
   char * filename;
   getcwd(cwd, sizeof(cwd));
-  int i,semi, fd, backup;
+  int i,semi, fd, backup, idx;
   printf("%s$", cwd);
   getInput(input);
   args = getArgsSemicolon(input);
@@ -67,6 +69,29 @@ int main(){
       if (strcmp(args[i][0],"cd")==0){
         return 2;
       }
+      //does args sub-array contain "|" (pipe)?
+      idx=0;
+      while(args[i][idx]) {
+        if (strcmp(args[i][idx], "|")==0) {
+          //create 2 char * arrays to pass into pipe as in and out
+          int i2=0;
+          printf("IN\n");
+          for(i2=0;i2<idx;i2++) {
+            in[i2] = args[i][i2];
+            printf("\t%s\n",in[i2]);
+          }
+          printf("OUT\n");
+          for(i2=idx+1;args[i][i2];i2++) {
+            out[i2-(idx+1)] = args[i][i2];
+            printf("\t%s\n",out[i2-(idx+1)]);
+          }
+          // exec_pipe(in, out);
+          exec_pipe(args[i][0], args[i][2]);
+          return 0;
+        }
+        idx++;
+      }
+
       // if (strcmp(args[i][1], ">") == 0) {
       //   backup = dup(1); //backup of stdout
       //   filename = args[i][2];
