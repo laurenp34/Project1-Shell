@@ -10,7 +10,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/wait.h>
-
+#define STDIN 0
+#define STDOUT 1
 void printArray(char ** array) {
   printf("[");
   int c = 0;
@@ -58,24 +59,9 @@ char ** parseBySpace(char input[100]) {
     //printf("what\n");
     i++;}
   }
-  //printf("done\n");
-  //char * last = out[i-1];
-  // printf("last: %s", last);
-  //out[i-1] = strsep(&last, "\n");
   out[i] = NULL;
-  //printf("finished parsing line. \n");
-  //printArray(out);
-  //printf("\n");
-return out;
 
-  // // char *s1 = line;
-  // char * out[100];
-  // int i=0;
-  // while (s1){
-  //   out[i] = strsep(&s1, "-");
-  //   i++;
-  // }
-  // out[i] = NULL;
+return out;
 }
 
 char *** getArgsSemicolon(char * line) {
@@ -112,29 +98,3 @@ void exec_pipe(char * file1, char * file2) {
   pclose(in);
   pclose(out);
 }
-
-
-// int main() {
-//   char ** a1;
-//   char *** a2;
-//   char s[100];
-//   getInput(s);
-//   printf("input: %s\n", s);
-//   if (strstr(s, ";")) {
-//     printf("there is a secmicolon\n");
-//     a2 = getArgsSemicolon(s);
-//     printArray2(a2);
-//   } else {
-//     a2 = getArgsSemicolon(s);
-//     printArray2(a2);
-//   }
-//
-//   // char line[100] = "woah this-is-cool";
-//   // char * out[20];
-//   // parseBySpace(line, out);
-//   // printArray(out);
-//   // // parseBySpace(in, args);
-//   // // printArray(args);
-//
-//   return 0;
-// }

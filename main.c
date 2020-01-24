@@ -11,16 +11,19 @@
 #include <dirent.h>
 #include <sys/wait.h>
 #include "shell.h"
-
+#define STDIN 0
+#define STDOUT 1
 int main(){
   int status,f,errors,g,h;
   char *** args;
   char * in [10];
   char * out[10];
+  char  rin[100];
+  char   rout[100];
   char input[100], cwd[500];
   char * filename;
   getcwd(cwd, sizeof(cwd));
-  int i,semi, fd, backup, idx;
+  int i,semi, fd, backup, idx, temp;
   printf("%s$", cwd);
   getInput(input);
   args = getArgsSemicolon(input);
@@ -74,16 +77,44 @@ int main(){
           exec_pipe(args[i][0], args[i][2]);
           return 0;
         }
-        idx++;
-      }
+        if (strcmp(args[i][idx],">")==0 || strcmp(args[i][idx],"<")==0 || strcmp(args[i][idx],">>")==0){
+          char * temp1= args[i][idx];
+          args[i][idx]=NULL;
+        //  printf("found one");
+        //  printArray2(args);
+            if (strcmp(temp1,">")==0){//putting stuff in a file
+            //  printf("In second one: %s\n",args[i][idx+1]);
+              strcpy(rout,temp1);
+            //  printf("[%s] is the name of the file\n",rout);
+              fd=open(rout, O_WRONLY | O_TRUNC, 0644);
+              if (fd<0) printf ("Error opening file");
+             temp =dup(STDOUT);
+              dup2(fd, STDOUT);
+              close(fd);
+            }
+            else if (strcmp(temp1,">")==0){
+              strcpy(rout,temp1);
+              printf("[%s] is the name of the file\n",rout);
+              fd=open(rout, O_WRONLY | O_APPEND, 0644);
+              if (fd<0) printf ("Error opening file");
+             temp =dup(STDOUT);
+              dup2(fd, STDOUT);
+              close(fd);
+            }
+            else if (strcmp(temp1,"<")==0){//getting stuff from a file
+               printf("[%s] is that ",rout);
+              fd=open(rin, O_RDONLY , 0744);
+              temp =dup(STDIN);
+              dup2(fd, STDIN);
+              close(fd);
+            }
 
-      // if (strcmp(args[i][1], ">") == 0) {
-      //   backup = dup(1); //backup of stdout
-      //   filename = args[i][2];
-      //   fd = open(filename, 0644);
-      //   dup2(fd, 1);
-      //   return 3;
-      // }
+  }
+      idx++;
+      }
+    //  printArray2(args);
+    //  printf("Printing array. Here it is. \n");
+
         if (execvp(args[i][0], args[i]) == -1) {
           // printf("Errno %d: %s\n", errno, strerror(errno));
           exit(errno);
@@ -98,41 +129,5 @@ getInput(input);
 //free(args);
 args = getArgsSemicolon(input);
 }
-// while (strcmp(args[i][0],"exit")!=0 && semi==2){
-//   f = fork();
-// //Parent runs after ALL children are done
-//   if (f){
-//     wait(&status);
-//   //  printf("%d",status);
-//     if (status==512){//handles a cd internally
-//         chdir(args[i][1]);//executes the cd
-//           while(args[i][0]){//while there are commands to look at
-//             f=fork();
-//             i++;
-//             if (f) {
-//               wait(&status);//child process waits
-//             }
-//             else execvp(args[i-1][0], args[i]);//each command is executed
-//           }
-//         }
-//       printArray(args);//once children have run
-//       printf("$");
-//       semi=getInput(args); //takes in new input
-//   }
-//   //Children run repeatedly
-//   else{
-//     while(args[i][0]){
-//       i++;
-//       if (strcmp(args[i-1][0],"cd")==0){
-//         return 2;//delegates back to parent class
-//       }
-//       f = fork();
-//       if (f) {
-//         wait(&status);//executes children one by one
-//       }
-//       else execvp(args[i-1][0], args[i]);
-// }
-// }
-// }
 return 0;
 }
