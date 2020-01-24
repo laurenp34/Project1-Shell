@@ -102,7 +102,16 @@ char *** getArgsSemicolon(char * line) {
   return args2;
 }
 
-
+void exec_pipe(char * file1, char * file2) {
+  FILE * in = popen(file1, "r");
+  FILE *out = popen(file2, "w");
+  char buff[100];
+  while (fgets(buff, 100, in)) {
+    if (fputs(buff,out) < 0) printf("Fputs error: %s", strerror(errno));
+  }
+  pclose(in);
+  pclose(out);
+}
 
 
 // int main() {
