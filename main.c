@@ -80,29 +80,31 @@ int main(){
         if (strcmp(args[i][idx],">")==0 || strcmp(args[i][idx],"<")==0 || strcmp(args[i][idx],">>")==0){
           char * temp1= args[i][idx];
           args[i][idx]=NULL;
+
         //  printf("found one");
         //  printArray2(args);
             if (strcmp(temp1,">")==0){//putting stuff in a file
             //  printf("In second one: %s\n",args[i][idx+1]);
-              strcpy(rout,temp1);
-            //  printf("[%s] is the name of the file\n",rout);
-              fd=open(rout, O_WRONLY | O_TRUNC, 0644);
+              strcpy(rout,args[i][idx+1]);
+          //    printf("[%s] is the name of the file (>)\n",rout);
+              fd=open(rout, O_CREAT | O_WRONLY, 0744);
               if (fd<0) printf ("Error opening file");
              temp =dup(STDOUT);
               dup2(fd, STDOUT);
               close(fd);
             }
-            else if (strcmp(temp1,">")==0){
-              strcpy(rout,temp1);
-              printf("[%s] is the name of the file\n",rout);
-              fd=open(rout, O_WRONLY | O_APPEND, 0644);
+            else if (strcmp(temp1,">>")==0){
+              strcpy(rout,args[i][idx+1]);
+        //      printf("[%s] is the name of the file\n",rout);
+              fd=open(rout, O_WRONLY | O_APPEND, 0744);
               if (fd<0) printf ("Error opening file");
              temp =dup(STDOUT);
               dup2(fd, STDOUT);
               close(fd);
             }
             else if (strcmp(temp1,"<")==0){//getting stuff from a file
-               printf("[%s] is that ",rout);
+              strcpy(rout,args[i][idx+1]);
+          //     printf("[%s] is that ",rout);
               fd=open(rin, O_RDONLY , 0744);
               temp =dup(STDIN);
               dup2(fd, STDIN);
